@@ -59,7 +59,7 @@ Retrieves and stores passwords in Hashicrp Vault.
 
 Retrieves and stores passwords in Hashicrp Vault.
 
-## Prepare an playbook for pwmate
+## YAML input files
 
 pwmate takes YAML files as input in order to update one or many accounts.
 
@@ -81,5 +81,5 @@ accounts:
 ## Run it
 
 ```sh
-pwmate -f input.yml
+./pwmate -f input.yml
 ```
