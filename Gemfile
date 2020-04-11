@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-gem "mechanize"
 gem "bundler"
+gem "mechanize"
 gem "faraday"
 gem "dotenv"
+gem "vault"
