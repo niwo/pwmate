@@ -53,11 +53,11 @@ Only used for testing puposes!
 
 ### Vault
 
-Retrieves and stores passwords in Hashicrp Vault.
+Retrieves and stores passwords in [Hashicorp Vault](https://www.vaultproject.io/).
 
 ### Cryptopus
 
-Retrieves and stores passwords in Hashicrp Vault.
+Retrieves and stores passwords in [Cryptopus](https://github.com/puzzle/cryptopus).
 
 ## YAML input files
 
