@@ -43,6 +43,7 @@ input["accounts"].each do |account|
   @current_password = Pwmate.get_current_password(account["secret_stores"].first)
   @new_password = Pwmate.generate_password(32)
   if @current_password && Pwmate.update_account(account, @current_password, @new_password)
+    
     account["secret_stores"].each do |store|
       Pwmate.set_new_password(store, @new_password)  
     end
