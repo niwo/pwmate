@@ -22,15 +22,14 @@ bundle install
 
 ## Configure it
 
-The following ENV vars can be set:
+The following ENV vars can be used:
 
 ```sh
-# cloudscale.ch credentials
-CLOUDSCALE_USER = 'user@example.com'
-CLOUDSCALE_PASSWORD = 'your-password'
-# cryptopus credentials
-CRYPTOPUS_USER = 'user-xyz01'
-CRYPTOPUS_TOKEN = 'your-token'
+CRYPTOPUS_API_URL='https://cryptopus.example.com/api'
+CRYPTOPUS_TOKEN='your-token'
+# vault settings
+VAULT_ADDR='https://vault.example.com'
+VAULT_TOKEN='my-vault-token'
 ```
 
 ## Acounts Types
@@ -67,19 +66,29 @@ Here is an example `input.yml` definition:
 
 ```yaml
 accounts:
-- name: My account
+- name: My cloudscale account
   type: cloudscale.ch
   username: account@example.com
   secret_stores:
-  - type: cli
   - type: vault
-    path: myaccount/secret
+    path: kv/data/spaces/my-secret
+    key: password
   - type: cryptopus
-    account: 42
+    user: my-api-user
+    account: 4242
+  - type: cli
 ```
 
 ## Run it
 
+Update all accounts defined in a input file:
+
 ```sh
 ./pwmate -f input.yml
+```
+
+Show all usage options:
+
+```sh
+./pwmate --help
 ```

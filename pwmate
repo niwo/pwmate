@@ -11,17 +11,8 @@ parser = OptionParser.new do |parser|
   parser.on("-f", "--file FILE", "YAML input file") do |file|
     @options[:file] = file
   end
-  parser.on("--cloudscale-user USER", "cloudscale.ch user") do |user|
-    @options[:cloudscale_user] = user || ENV['CLOUDSCALE_USER']
-  end
-  parser.on("--cloudscale-password PASSWORD", "cloudscale.ch password") do |password|
-    @options[:cloudscale_password] = password || ENV['CLOUDSCALE_PASSWORD']
-  end
-  parser.on("--cryptopus-user USER", "Cryptopus API user") do |user|
-    @options[:cryptopus_user] = user || ENV['CRYPTOPUS_USER']
-  end
-  parser.on("--cryptopus-token TOKEN", "Cryptopus API token") do |token|
-    @options[:cryptopus_token] = token || ENV['CRYPTOPUS_TOKEN']
+  parser.on("-n", "--no-op", "only login, no password change") do
+    @options[:no_op] = true
   end
 end
 
@@ -37,18 +28,28 @@ rescue OptionParser::ParseError => e
   exit 1
 end
 
+pwmate = Pwmate.new(@options)
 input = YAML.load_file(@options[:file])
 input["accounts"].each do |account|
-  puts "# Account: #{account["name"]}"
-  @current_password = Pwmate.get_current_password(account["secret_stores"].first)
-  @new_password = Pwmate.generate_password(32)
-  if @current_password && Pwmate.update_account(account, @current_password, @new_password)
-    
-    account["secret_stores"].each do |store|
-      Pwmate.set_new_password(store, @new_password)  
+  puts "# Account #{account["name"]}"
+  @current_password = pwmate.get_current_password(account["secret_stores"].first)
+  @new_password = pwmate.generate_password(32)
+  if @current_password
+    if @options[:no_op]
+      if pwmate.login_account(account, @current_password)
+        puts "# Logged in successfully."
+      else
+        puts "# Can't log-in into account."
+      end
+    else
+      if pwmate.update_account(account, @current_password, @new_password)
+        account["secret_stores"].each do |store|
+          pwmate.set_new_password(store, @new_password)  
+        end
+        puts "# Account has been updated."
+      else
+        puts "# Can't update account."
+      end
     end
-    puts "# Account updated."
-  else
-    puts "# Can't update account."
   end
 end

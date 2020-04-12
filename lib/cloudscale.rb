@@ -6,6 +6,7 @@ require "mechanize"
       @username = username.to_s
       @password = password.to_s
       @mech = Mechanize.new
+      @mech.user_agent = "pwmate"
       @logged_in = false
     end
 
@@ -17,7 +18,7 @@ require "mechanize"
         raise "missing password for cloudscale.ch account #{@username}."
       end
 
-      page = @mech.get('https://cloudscale.ch/en/')
+      page = @mech.get('https://cloudscale.ch/')
       page = @mech.click page.link_with(:text => /Login/) # Click the login link
       form = page.forms.first # Select the first form
 
