@@ -1,7 +1,7 @@
 # pwmate
 
 Automated password changes for [cloudcsale.ch](https://cloudscale.ch) accounts.
-Passwords can be retrieving and saved using [Vault](https://www.vaultproject.io/), [Cryptopus](https://github.com/puzzle/cryptopus) or command line.
+Passwords can be retrieved and saved using [Vault](https://www.vaultproject.io/), [Cryptopus](https://github.com/puzzle/cryptopus) or command line.
 
 ## Dev dependencies on Ubuntu
 
